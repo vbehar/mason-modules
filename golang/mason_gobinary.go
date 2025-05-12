@@ -26,9 +26,13 @@ type GoBinarySpecOutput struct {
 }
 
 func (s GoBinarySpec) Plan(brick Brick) map[string]string {
-	return map[string]string{
+	plan := map[string]string{
 		"package": s.packageScript(brick),
 	}
+	for _, phase := range brick.Metadata.ExtraPhases {
+		plan[phase] = plan["package"]
+	}
+	return plan
 }
 
 func (s GoBinarySpec) packageScript(brick Brick) string {

@@ -80,7 +80,8 @@ type Brick struct {
 	Kind      string `json:"kind"`
 	ModuleRef string `json:"moduleRef"`
 	Metadata  struct {
-		Name string `json:"name"`
+		Name        string   `json:"name"`
+		ExtraPhases []string `json:"extraPhases"`
 	} `json:"metadata"`
 	Spec json.RawMessage `json:"spec"`
 }

@@ -24,9 +24,13 @@ type GoTestSpecOutput struct {
 }
 
 func (s GoTestSpec) Plan(brick Brick) map[string]string {
-	return map[string]string{
+	plan := map[string]string{
 		"test": s.testScript(brick),
 	}
+	for _, phase := range brick.Metadata.ExtraPhases {
+		plan[phase] = plan["test"]
+	}
+	return plan
 }
 
 func (s GoTestSpec) testScript(brick Brick) string {

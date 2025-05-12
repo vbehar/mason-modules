@@ -12,9 +12,10 @@ type GoLintSpec struct {
 }
 
 type GoLintSpecSources struct {
-	Path    string   `json:"path"`
-	Include []string `json:"include"`
-	Exclude []string `json:"exclude"`
+	Path                string   `json:"path"`
+	Include             []string `json:"include"`
+	Exclude             []string `json:"exclude"`
+	GolangCILintVersion string   `json:"golangCILintVersion"`
 }
 
 type GoLintSpecOutput struct {
@@ -23,9 +24,13 @@ type GoLintSpecOutput struct {
 }
 
 func (s GoLintSpec) Plan(brick Brick) map[string]string {
-	return map[string]string{
+	plan := map[string]string{
 		"lint": s.lintScript(brick),
 	}
+	for _, phase := range brick.Metadata.ExtraPhases {
+		plan[phase] = plan["lint"]
+	}
+	return plan
 }
 
 func (s GoLintSpec) lintScript(brick Brick) string {
@@ -43,6 +48,9 @@ func (s GoLintSpec) lintScript(brick Brick) string {
 	}
 
 	baseCmd := brick.ModuleRef + " --source $(" + src + ") | lint"
+	if s.Sources.GolangCILintVersion != "" {
+		baseCmd += " --golangcilint-version " + s.Sources.GolangCILintVersion
+	}
 	if len(s.LintArgs) > 0 {
 		baseCmd += " " + strings.Join(s.LintArgs, " ")
 	}
