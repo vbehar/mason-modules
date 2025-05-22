@@ -23,10 +23,10 @@ type RunBinarySource struct {
 
 func (s RunBinarySpec) Plan(brick Brick) map[string]string {
 	plan := map[string]string{
-		"run": s.runScript(brick),
+		"run_" + brick.Filename(): s.runScript(brick),
 	}
 	for _, phase := range brick.Metadata.ExtraPhases {
-		plan[phase] = plan["run"]
+		plan[phase+"_"+brick.Filename()] = plan["run_"+brick.Filename()]
 	}
 	return plan
 }

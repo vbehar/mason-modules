@@ -1,4 +1,4 @@
-module dagger/golang
+module dagger/mason-git-info
 
 go 1.24.3
 

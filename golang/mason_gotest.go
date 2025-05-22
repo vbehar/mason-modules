@@ -25,10 +25,10 @@ type GoTestSpecOutput struct {
 
 func (s GoTestSpec) Plan(brick Brick) map[string]string {
 	plan := map[string]string{
-		"test": s.testScript(brick),
+		"test_" + brick.Filename(): s.testScript(brick),
 	}
 	for _, phase := range brick.Metadata.ExtraPhases {
-		plan[phase] = plan["test"]
+		plan[phase+"_"+brick.Filename()] = plan["test_"+brick.Filename()]
 	}
 	return plan
 }
@@ -66,7 +66,7 @@ func (s GoTestSpec) testScript(brick Brick) string {
 			cmd += fmt.Sprintf("%s | junit-file | export %s", baseCmd, s.Output.JUnitHostFilePath)
 		}
 	}
-	cmd += "\n_echo\n" + baseCmd + " | assert"
+	cmd += "\n.echo\n" + baseCmd + " | assert"
 
 	return cmd
 }

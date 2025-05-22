@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"path/filepath"
+	"strings"
 
 	"dagger/golang/internal/dagger"
 )
@@ -70,11 +71,12 @@ type TestRun struct {
 
 func (t *TestRun) Assert(ctx context.Context) (string, error) {
 	output, err := t.Ctr.Stdout(ctx)
+	output = strings.TrimSpace(output)
 	if err != nil {
 		return output, err
 	}
 	if t.ExitCode != 0 {
-		return output, fmt.Errorf("go test failed with exit code %d: %s", t.ExitCode, output)
+		return output, fmt.Errorf("go test failed with exit code %d:\n%s", t.ExitCode, output)
 	}
 	return output, nil
 }

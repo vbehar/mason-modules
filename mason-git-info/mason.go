@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"strings"
 
-	"dagger/golang/internal/dagger"
+	"dagger/mason-git-info/internal/dagger"
 )
 
-func (m *Golang) RenderPlan(ctx context.Context, blueprint *dagger.Directory) (*dagger.Directory, error) {
+func (m *MasonGitInfo) RenderPlan(ctx context.Context, blueprint *dagger.Directory) (*dagger.Directory, error) {
 	fileNames, err := blueprint.Entries(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get blueprint directory entries: %w", err)
@@ -29,22 +29,8 @@ func (m *Golang) RenderPlan(ctx context.Context, blueprint *dagger.Directory) (*
 		}
 
 		switch strings.ToLower(brick.Kind) {
-		case "gobinary":
-			var spec GoBinarySpec
-			err = json.Unmarshal(brick.Spec, &spec)
-			if err != nil {
-				return nil, fmt.Errorf("failed to unmarshal spec for file %s: %w", fileName, err)
-			}
-			outDirectory = addPlanToDirectory(spec.Plan, outDirectory, brick)
-		case "gotest":
-			var spec GoTestSpec
-			err = json.Unmarshal(brick.Spec, &spec)
-			if err != nil {
-				return nil, fmt.Errorf("failed to unmarshal spec for file %s: %w", fileName, err)
-			}
-			outDirectory = addPlanToDirectory(spec.Plan, outDirectory, brick)
-		case "golint":
-			var spec GoLintSpec
+		case "gitinfo":
+			var spec GitInfoSpec
 			err = json.Unmarshal(brick.Spec, &spec)
 			if err != nil {
 				return nil, fmt.Errorf("failed to unmarshal spec for file %s: %w", fileName, err)

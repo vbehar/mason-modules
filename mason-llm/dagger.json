@@ -1,0 +1,13 @@
+{
+  "name": "mason-llm",
+  "engineVersion": "v0.18.8",
+  "sdk": {
+    "source": "go"
+  },
+  "dependencies": [
+    {
+      "name": "mason-git-info",
+      "source": "../mason-git-info"
+    }
+  ]
+}

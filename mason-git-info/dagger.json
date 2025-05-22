@@ -1,0 +1,14 @@
+{
+  "name": "mason-git-info",
+  "engineVersion": "v0.18.8",
+  "sdk": {
+    "source": "go"
+  },
+  "dependencies": [
+    {
+      "name": "git-info",
+      "source": "github.com/vbehar/daggerverse/git-info@v0.13.2",
+      "pin": "dea7c3f08641fd37e72e45530c5091fda2334b08"
+    }
+  ]
+}

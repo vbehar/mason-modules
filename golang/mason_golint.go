@@ -25,10 +25,10 @@ type GoLintSpecOutput struct {
 
 func (s GoLintSpec) Plan(brick Brick) map[string]string {
 	plan := map[string]string{
-		"lint": s.lintScript(brick),
+		"lint_" + brick.Filename(): s.lintScript(brick),
 	}
 	for _, phase := range brick.Metadata.ExtraPhases {
-		plan[phase] = plan["lint"]
+		plan[phase+"_"+brick.Filename()] = plan["lint_"+brick.Filename()]
 	}
 	return plan
 }
@@ -66,7 +66,7 @@ func (s GoLintSpec) lintScript(brick Brick) string {
 			cmd += fmt.Sprintf("%s | code-climate-file | export %s", baseCmd, s.Output.CodeClimateHostFilePath)
 		}
 	}
-	cmd += "\n_echo\n" + baseCmd + " | assert"
+	cmd += "\n.echo\n" + baseCmd + " | assert"
 
 	return cmd
 }

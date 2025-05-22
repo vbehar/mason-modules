@@ -27,10 +27,10 @@ type GoBinarySpecOutput struct {
 
 func (s GoBinarySpec) Plan(brick Brick) map[string]string {
 	plan := map[string]string{
-		"package": s.packageScript(brick),
+		"package_" + brick.Filename(): s.packageScript(brick),
 	}
 	for _, phase := range brick.Metadata.ExtraPhases {
-		plan[phase] = plan["package"]
+		plan[phase+"_"+brick.Filename()] = plan["package_"+brick.Filename()]
 	}
 	return plan
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"path/filepath"
+	"strings"
 
 	"dagger/golang/internal/dagger"
 )
@@ -57,11 +58,12 @@ type LintRun struct {
 
 func (l *LintRun) Assert(ctx context.Context) (string, error) {
 	output, err := l.Ctr.Stdout(ctx)
+	output = strings.TrimSpace(output)
 	if err != nil {
 		return output, err
 	}
 	if l.ExitCode != 0 {
-		return output, fmt.Errorf("golangci-lint failed with exit code %d: %s", l.ExitCode, output)
+		return output, fmt.Errorf("golangci-lint failed with exit code %d:\n%s", l.ExitCode, output)
 	}
 	return output, nil
 }
