@@ -3,6 +3,8 @@ package main
 import (
 	"dagger/run/internal/dagger"
 	"strings"
+
+	"github.com/vbehar/mason-sdk-go"
 )
 
 type RunBinarySpec struct {
@@ -21,7 +23,7 @@ type RunBinarySource struct {
 	DaggerFileName string `json:"daggerFileName"`
 }
 
-func (s RunBinarySpec) Plan(brick Brick) map[string]string {
+func (s RunBinarySpec) Plan(brick mason.Brick) map[string]string {
 	plan := map[string]string{
 		"run_" + brick.Filename(): s.runScript(brick),
 	}
@@ -31,7 +33,7 @@ func (s RunBinarySpec) Plan(brick Brick) map[string]string {
 	return plan
 }
 
-func (s RunBinarySpec) runScript(_ Brick) string {
+func (s RunBinarySpec) runScript(_ mason.Brick) string {
 	cmd := "container"
 	if s.Platform != "" {
 		cmd += " --platform " + string(s.Platform)

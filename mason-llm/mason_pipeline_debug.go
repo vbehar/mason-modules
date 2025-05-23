@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"strings"
+
+	"github.com/vbehar/mason-sdk-go"
 )
 
 type LLMPipelineDebugSpec struct {
@@ -42,7 +44,7 @@ type LLMPipelineDebugSpecOutput struct {
 	HostFilePath   string `json:"hostFilePath"`
 }
 
-func (s LLMPipelineDebugSpec) Plan(brick Brick) map[string]string {
+func (s LLMPipelineDebugSpec) Plan(brick mason.Brick) map[string]string {
 	plan := make(map[string]string)
 	if brick.Metadata.PostRun != "" {
 		plan[brick.Filename()] = s.script(brick)
@@ -52,7 +54,7 @@ func (s LLMPipelineDebugSpec) Plan(brick Brick) map[string]string {
 	return plan
 }
 
-func (s LLMPipelineDebugSpec) script(brick Brick) string {
+func (s LLMPipelineDebugSpec) script(brick mason.Brick) string {
 	brickName := strings.ReplaceAll(brick.Metadata.Name, "-", "_")
 
 	if brick.Metadata.PostRun != "" && s.LogFilePath == "" {

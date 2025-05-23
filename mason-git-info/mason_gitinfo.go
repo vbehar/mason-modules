@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"strings"
+
+	"github.com/vbehar/mason-sdk-go"
 )
 
 type GitInfoSpec struct {
@@ -17,7 +19,7 @@ type GitInfoSpecOutput struct {
 	Type           string   `json:"type"`
 }
 
-func (s GitInfoSpec) Plan(brick Brick) map[string]string {
+func (s GitInfoSpec) Plan(brick mason.Brick) map[string]string {
 	plan := make(map[string]string, len(brick.Metadata.ExtraPhases))
 	script := s.script(brick)
 	for _, phase := range brick.Metadata.ExtraPhases {
@@ -26,7 +28,7 @@ func (s GitInfoSpec) Plan(brick Brick) map[string]string {
 	return plan
 }
 
-func (s GitInfoSpec) script(brick Brick) string {
+func (s GitInfoSpec) script(brick mason.Brick) string {
 	gitDirectory := "host | directory "
 	if s.GitDirectory != "" {
 		gitDirectory += s.GitDirectory

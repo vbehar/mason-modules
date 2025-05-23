@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"strings"
+
+	"github.com/vbehar/mason-sdk-go"
 )
 
 type GoBinarySpec struct {
@@ -25,7 +27,7 @@ type GoBinarySpecOutput struct {
 	HostFilePath   string `json:"hostFilePath"`
 }
 
-func (s GoBinarySpec) Plan(brick Brick) map[string]string {
+func (s GoBinarySpec) Plan(brick mason.Brick) map[string]string {
 	plan := map[string]string{
 		"package_" + brick.Filename(): s.packageScript(brick),
 	}
@@ -35,7 +37,7 @@ func (s GoBinarySpec) Plan(brick Brick) map[string]string {
 	return plan
 }
 
-func (s GoBinarySpec) packageScript(brick Brick) string {
+func (s GoBinarySpec) packageScript(brick mason.Brick) string {
 	src := "host | directory "
 	if s.Sources.Path != "" {
 		src += s.Sources.Path

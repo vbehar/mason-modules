@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"strings"
+
+	"github.com/vbehar/mason-sdk-go"
 )
 
 type LLMCodeReviewSpec struct {
@@ -40,7 +42,7 @@ type LLMCodeReviewSpecOutput struct {
 	HostFilePath   string `json:"hostFilePath"`
 }
 
-func (s LLMCodeReviewSpec) Plan(brick Brick) map[string]string {
+func (s LLMCodeReviewSpec) Plan(brick mason.Brick) map[string]string {
 	plan := map[string]string{
 		"review_" + brick.Filename(): s.script(brick),
 	}
@@ -50,7 +52,7 @@ func (s LLMCodeReviewSpec) Plan(brick Brick) map[string]string {
 	return plan
 }
 
-func (s LLMCodeReviewSpec) script(brick Brick) string {
+func (s LLMCodeReviewSpec) script(brick mason.Brick) string {
 	brickName := strings.ReplaceAll(brick.Metadata.Name, "-", "_")
 
 	workspace := "host | directory "

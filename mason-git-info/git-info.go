@@ -70,12 +70,17 @@ func (g *MasonGitInfo) RepoURL(ctx context.Context) (string, error) {
 	return dag.GitInfo(g.GitDirectory).URL(ctx)
 }
 
-func (g *MasonGitInfo) DiffFile(ctx context.Context) (*dagger.File, error) {
+func (g *MasonGitInfo) DiffFile(
+	ctx context.Context,
+	// +optional
+	// +default=["origin"]
+	targets []string,
+) (*dagger.File, error) {
 	var fullDiff string
 
-	diffFromOrigin, err := g.Container.WithExec([]string{
-		"git", "diff", "origin",
-	}, dagger.ContainerWithExecOpts{
+	diffFromOrigin, err := g.Container.WithExec(append([]string{
+		"git", "diff",
+	}, targets...), dagger.ContainerWithExecOpts{
 		Expect: dagger.ReturnTypeAny,
 	}).Stdout(ctx)
 	if err != nil {

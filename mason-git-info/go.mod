@@ -5,6 +5,7 @@ go 1.24.3
 require (
 	github.com/99designs/gqlgen v0.17.73
 	github.com/Khan/genqlient v0.8.0
+	github.com/vbehar/mason-sdk-go v0.0.0-20250522190840-129ede87e886
 	github.com/vektah/gqlparser/v2 v2.5.26
 	go.opentelemetry.io/otel v1.34.0
 	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc v0.8.0

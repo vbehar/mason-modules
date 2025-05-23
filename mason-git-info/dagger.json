@@ -7,8 +7,8 @@
   "dependencies": [
     {
       "name": "git-info",
-      "source": "github.com/vbehar/daggerverse/git-info@v0.13.2",
-      "pin": "dea7c3f08641fd37e72e45530c5091fda2334b08"
+      "source": "github.com/vbehar/daggerverse/git-info@v0.14.0",
+      "pin": "838974e23bf2afb192850103c6d76fe620f31afd"
     }
   ]
 }

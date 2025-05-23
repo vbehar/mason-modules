@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"strings"
+
+	"github.com/vbehar/mason-sdk-go"
 )
 
 type GoLintSpec struct {
@@ -23,7 +25,7 @@ type GoLintSpecOutput struct {
 	CodeClimateHostFilePath   string `json:"codeClimateHostFilePath"`
 }
 
-func (s GoLintSpec) Plan(brick Brick) map[string]string {
+func (s GoLintSpec) Plan(brick mason.Brick) map[string]string {
 	plan := map[string]string{
 		"lint_" + brick.Filename(): s.lintScript(brick),
 	}
@@ -33,7 +35,7 @@ func (s GoLintSpec) Plan(brick Brick) map[string]string {
 	return plan
 }
 
-func (s GoLintSpec) lintScript(brick Brick) string {
+func (s GoLintSpec) lintScript(brick mason.Brick) string {
 	src := "host | directory "
 	if s.Sources.Path != "" {
 		src += s.Sources.Path

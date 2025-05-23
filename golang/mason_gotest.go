@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"strings"
+
+	"github.com/vbehar/mason-sdk-go"
 )
 
 type GoTestSpec struct {
@@ -23,7 +25,7 @@ type GoTestSpecOutput struct {
 	JUnitHostFilePath   string `json:"junitHostFilePath"`
 }
 
-func (s GoTestSpec) Plan(brick Brick) map[string]string {
+func (s GoTestSpec) Plan(brick mason.Brick) map[string]string {
 	plan := map[string]string{
 		"test_" + brick.Filename(): s.testScript(brick),
 	}
@@ -33,7 +35,7 @@ func (s GoTestSpec) Plan(brick Brick) map[string]string {
 	return plan
 }
 
-func (s GoTestSpec) testScript(brick Brick) string {
+func (s GoTestSpec) testScript(brick mason.Brick) string {
 	src := "host | directory "
 	if s.Sources.Path != "" {
 		src += s.Sources.Path
